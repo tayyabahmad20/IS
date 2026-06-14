@@ -1,0 +1,386 @@
+bash
+
+cat > /home/claude/is_guide.html << 'HTMLEOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Information Security — Final Exam Master Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#f7f4ef;
+  --ink:#0d1117;
+  --surface:#ffffff;
+  --border:#e5ddd0;
+  --accent:#b5451b;
+  --accent2:#1a6b8a;
+  --accent3:#1e7d46;
+  --accent4:#7c4dbe;
+  --gold:#c9890a;
+  --red:#c0392b;
+  --green:#1e8449;
+  --blue:#1a6b8a;
+  --purple:#7c4dbe;
+  --mono:'JetBrains Mono',monospace;
+  --serif:'Playfair Display',serif;
+  --sans:'Inter',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14.5px;line-height:1.75;}
+
+/* PROGRESS */
+#prog{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:999;transition:width .1s;}
+
+/* NAV */
+nav{background:var(--ink);color:#fff;padding:0 32px;position:sticky;top:0;z-index:100;display:flex;gap:0;overflow-x:auto;}
+nav a{display:block;padding:13px 13px;font-size:11px;font-family:var(--mono);color:#888;text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;}
+nav a:hover,nav a.active{color:#fff;border-bottom-color:var(--accent);}
+
+/* HERO */
+.hero{background:var(--ink);color:#fff;padding:64px 40px 48px;position:relative;overflow:hidden;}
+.hero::before{content:'IS';position:absolute;right:-20px;top:-40px;font-family:var(--serif);font-size:240px;font-weight:900;color:rgba(181,69,27,0.07);line-height:1;}
+.hero-tag{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;}
+.hero h1{font-family:var(--serif);font-size:clamp(28px,5vw,54px);font-weight:900;line-height:1.1;}
+.hero h1 span{color:var(--accent);}
+.hero-sub{color:#94a3b8;margin-top:12px;max-width:640px;font-size:14px;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;}
+.chip{padding:5px 14px;border-radius:20px;font-family:var(--mono);font-size:11px;}
+.chip-r{background:rgba(181,69,27,0.2);color:#f87171;border:1px solid rgba(181,69,27,0.3);}
+.chip-b{background:rgba(26,107,138,0.2);color:#7dd3fc;border:1px solid rgba(26,107,138,0.3);}
+.chip-g{background:rgba(30,125,70,0.2);color:#86efac;border:1px solid rgba(30,125,70,0.3);}
+
+/* MAIN */
+main{max-width:1080px;margin:0 auto;padding:40px 24px 80px;}
+
+/* SECTION */
+.section{margin-bottom:64px;scroll-margin-top:60px;}
+.sec-head{display:flex;align-items:center;gap:16px;margin-bottom:28px;padding-bottom:14px;border-bottom:2px solid var(--border);}
+.sec-num{font-family:var(--serif);font-size:52px;font-weight:900;color:var(--border);line-height:1;}
+.sec-title{font-family:var(--serif);font-size:clamp(20px,3vw,32px);font-weight:700;}
+.sec-title span{display:block;font-family:var(--mono);font-size:10px;font-weight:400;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+
+/* PRIORITY BADGES */
+.priority{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:12px;font-family:var(--mono);font-size:10px;font-weight:700;margin-left:10px;vertical-align:middle;}
+.p-high{background:#fdecea;color:#c0392b;border:1px solid #f5a9a9;}
+.p-med{background:#fef9e7;color:#b7950b;border:1px solid #f7dc6f;}
+.p-low{background:#eafaf1;color:#1e8449;border:1px solid #a9dfb8;}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px;margin-bottom:16px;}
+.card.al{border-left:4px solid var(--accent);}
+.card.ab{border-left:4px solid var(--accent2);}
+.card.ag{border-left:4px solid var(--accent3);}
+.card.ap{border-left:4px solid var(--accent4);}
+.card.agd{border-left:4px solid var(--gold);}
+.card h3{font-family:var(--serif);font-size:18px;font-weight:700;margin-bottom:10px;}
+.card h4{font-family:var(--sans);font-size:14px;font-weight:600;margin:14px 0 6px;color:var(--accent);}
+.card p,.card li{font-size:13.5px;color:#2d3748;line-height:1.8;}
+.card ul,.card ol{padding-left:20px;margin-top:6px;}
+.card li{margin-bottom:4px;}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:16px;}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:16px;}
+.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px;}
+
+/* TABLE */
+.tbl{overflow-x:auto;margin:14px 0;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{background:var(--ink);color:#fff;padding:10px 14px;text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:1px;}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:#2d3748;}
+tr:nth-child(even) td{background:#fafaf8;}
+tr:hover td{background:#f0ede8;}
+
+/* CALLOUT */
+.callout{padding:14px 18px;border-radius:8px;margin:12px 0;font-size:13.5px;}
+.callout.tip{background:#eafaf1;border-left:4px solid var(--green);}
+.callout.warn{background:#fef9e7;border-left:4px solid var(--gold);}
+.callout.info{background:#eaf4fb;border-left:4px solid var(--blue);}
+.callout.danger{background:#fdecea;border-left:4px solid var(--red);}
+.callout strong{display:block;font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.callout.tip strong{color:var(--green);}
+.callout.warn strong{color:var(--gold);}
+.callout.info strong{color:var(--blue);}
+.callout.danger strong{color:var(--red);}
+.callout p{font-size:13px;}
+
+/* FORMULA */
+.formula{background:#1e2433;color:#e2e8f0;padding:12px 20px;border-radius:8px;font-family:var(--mono);font-size:13px;text-align:center;margin:12px 0;}
+
+/* DIAGRAM */
+.diag{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;margin:14px 0;text-align:center;overflow-x:auto;}
+
+/* BADGE */
+.badge{display:inline-block;padding:2px 9px;border-radius:10px;font-family:var(--mono);font-size:10px;font-weight:700;margin:2px;}
+.br{background:#fdecea;color:#c0392b;}
+.bb{background:#eaf4fb;color:#1a6b8a;}
+.bg{background:#eafaf1;color:#1e8449;}
+.bp{background:#f5eef8;color:#7c4dbe;}
+.by{background:#fef9e7;color:#b7950b;}
+
+/* QUESTIONS */
+.q-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:14px;}
+.q-box:hover{border-color:var(--accent);}
+.q-label{font-family:var(--mono);font-size:10px;color:var(--accent);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;}
+.q-text{font-size:13.5px;color:var(--ink);line-height:1.8;}
+.q-marks{font-family:var(--mono);font-size:10px;color:var(--gold);margin-top:6px;}
+.ans-btn{background:transparent;border:1px solid var(--border);border-radius:6px;padding:6px 14px;font-family:var(--mono);font-size:10px;color:var(--accent);cursor:pointer;margin-top:10px;transition:all .2s;}
+.ans-btn:hover{background:var(--accent);color:#fff;}
+.ans-body{display:none;margin-top:12px;background:#fafaf8;border:1px solid var(--border);border-radius:8px;padding:14px;font-size:13px;color:#2d3748;line-height:1.8;}
+.ans-body.open{display:block;}
+.ans-body ul{padding-left:18px;margin-top:6px;}
+.ans-body li{margin-bottom:4px;}
+
+/* REVISION SHEET */
+.rev-sheet{background:var(--ink);color:#e2e8f0;border-radius:12px;padding:32px;margin:20px 0;}
+.rev-sheet h2{font-family:var(--serif);font-size:24px;color:#fff;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid #2d3748;}
+.rev-section{margin-bottom:20px;}
+.rev-section h3{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.rev-item{font-size:13px;padding:6px 0;border-bottom:1px solid #1e2433;color:#cbd5e0;}
+.rev-item strong{color:#fff;}
+.rev-item:last-child{border:none;}
+
+/* STEPS */
+.steps{counter-reset:step;}
+.step{display:flex;gap:14px;margin-bottom:14px;}
+.step::before{counter-increment:step;content:counter(step);width:28px;height:28px;min-width:28px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:700;}
+.step p{font-size:13.5px;padding-top:3px;color:#2d3748;}
+
+/* TOPIC BOX */
+.topic-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px;transition:all .2s;}
+.topic-box:hover{border-color:var(--accent);box-shadow:0 2px 12px rgba(0,0,0,0.07);}
+.topic-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.topic-title{font-family:var(--serif);font-size:17px;font-weight:700;}
+.def-box{background:#fafaf8;border-radius:6px;padding:12px 16px;margin:8px 0;font-size:13.5px;color:#2d3748;border-left:3px solid var(--accent2);}
+.def-box strong{color:var(--accent2);}
+
+/* COMPARISON TABLE highlight */
+.tbl table thead{background:var(--ink);}
+.vs-a{background:rgba(26,107,138,0.05);}
+.vs-b{background:rgba(181,69,27,0.05);}
+
+hr.dashed{border:none;border-top:1px dashed var(--border);margin:32px 0;}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<nav id="topnav">
+  <a href="#overview">📋 Overview</a>
+  <a href="#crypto">🔐 Crypto Tools</a>
+  <a href="#auth">👤 Authentication</a>
+  <a href="#access">🔑 Access Control</a>
+  <a href="#mls">🏛 MLS & Trusted</a>
+  <a href="#ids">🚨 IDS/IPS</a>
+  <a href="#fw">🛡 Firewalls</a>
+  <a href="#compare">📊 Comparisons</a>
+  <a href="#questions">❓ Questions</a>
+  <a href="#revision">📝 Last Night Sheet</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">📚 Final Exam Complete Study Guide</div>
+  <h1>Information Security<br/><span>Master Revision Guide</span></h1>
+  <p class="hero-sub">Built from your 6 lecture slides: Cryptographic Tools · User Authentication · Access Control · Trusted Computing & MLS · IDS · Firewalls</p>
+  <div class="hero-chips">
+    <div class="chip chip-r">6 Lecture Weeks Covered</div>
+    <div class="chip chip-b">MCQs + Short + Long Questions</div>
+    <div class="chip chip-g">Last Night Revision Sheet Included</div>
+  </div>
+</div>
+
+<main>
+
+<!-- ══════ OVERVIEW ══════ -->
+<div class="section" id="overview">
+  <div class="sec-head">
+    <div class="sec-num">00</div>
+    <div class="sec-title"><span>Overview</span>Most Important Topics for Final Exam</div>
+  </div>
+
+  <div class="g3">
+    <div class="card al">
+      <h3>🔴 HIGH Priority</h3>
+      <ul>
+        <li>Hash Functions & MAC</li>
+        <li>Digital Signatures & PKI</li>
+        <li>Password Cracking Techniques</li>
+        <li>Salted Password Hashing</li>
+        <li>Bell-LaPadula Model</li>
+        <li>Biba Model</li>
+        <li>DAC vs MAC vs RBAC</li>
+        <li>IDS: Anomaly vs Signature</li>
+        <li>Firewall Types (Packet, Stateful, App)</li>
+        <li>IDS vs IPS</li>
+      </ul>
+    </div>
+    <div class="card agd">
+      <h3>🟡 MEDIUM Priority</h3>
+      <ul>
+        <li>Access Control Matrix / ACL</li>
+        <li>Capabilities & Locks/Keys</li>
+        <li>Biometric Authentication</li>
+        <li>Token Authentication</li>
+        <li>TPM (Trusted Platform Module)</li>
+        <li>Bastion Hosts / DMZ</li>
+        <li>SNORT Rules</li>
+        <li>VPN Overview</li>
+        <li>Honeypots</li>
+        <li>Stateful Inspection</li>
+      </ul>
+    </div>
+    <div class="card ag">
+      <h3>🟢 LOW Priority</h3>
+      <ul>
+        <li>SOCKS Circuit Gateway</li>
+        <li>Distributed Firewall</li>
+        <li>Digital Immune System</li>
+        <li>SET/S-HTTP Protocols</li>
+        <li>PGP / S/MIME</li>
+        <li>Embossed Cards</li>
+        <li>PKIX Management</li>
+        <li>Personal Firewalls</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tbl">
+    <table>
+      <tr><th>Week</th><th>Topic</th><th>Priority</th><th>Likely Exam Format</th></tr>
+      <tr><td>Week 8</td><td>Cryptographic Tools (Hash, MAC, PKI, Digital Signatures)</td><td><span class="badge br">HIGH</span></td><td>MCQ + Short + Long</td></tr>
+      <tr><td>Week 10</td><td>User Authentication (Passwords, Tokens, Biometrics)</td><td><span class="badge br">HIGH</span></td><td>MCQ + Short + Long</td></tr>
+      <tr><td>Week 11</td><td>Access Control (DAC, MAC, RBAC, ACL, Capabilities)</td><td><span class="badge br">HIGH</span></td><td>MCQ + Short + Long</td></tr>
+      <tr><td>Week 12</td><td>Trusted Computing, BLP Model, Biba Model, MLS</td><td><span class="badge br">HIGH</span></td><td>MCQ + Short + Long</td></tr>
+      <tr><td>Week 13</td><td>Intrusion Detection Systems (IDS, Honeypots, SNORT)</td><td><span class="badge by">MED</span></td><td>MCQ + Short</td></tr>
+      <tr><td>Week 14</td><td>Firewalls (Types, VPN, IPS, DMZ)</td><td><span class="badge by">MED</span></td><td>MCQ + Short</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══════ TOPIC 1: CRYPTO ══════ -->
+<div class="section" id="crypto">
+  <div class="sec-head">
+    <div class="sec-num">01</div>
+    <div class="sec-title"><span>Week 8</span>Cryptographic Tools <span class="priority p-high">🔴 HIGH</span></div>
+  </div>
+
+  <!-- Message Authentication -->
+  <div class="topic-box">
+    <div class="topic-head">
+      <div class="topic-title">1.1 Message Authentication</div>
+      <span class="badge br">HIGH</span>
+    </div>
+    <div class="def-box"><strong>Definition:</strong> The process of verifying that a message is authentic — its contents are unaltered, it came from an authentic source, and it is timely and in correct sequence.</div>
+    <div class="g2">
+      <div>
+        <h4>Key Concepts</h4>
+        <ul>
+          <li>Protects against <strong>active attacks</strong></li>
+          <li>Can use <strong>conventional encryption</strong> (only sender & receiver have key)</li>
+          <li>Or use <strong>separate MAC</strong> appended to cleartext</li>
+          <li>MAC formula: <code>MAC_M = F(K_AB, M)</code></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Real-World Example</h4>
+        <p>When your bank sends you an OTP or when an email client checks DKIM signatures — these verify the message hasn't been tampered with and truly came from the claimed sender.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hash Functions -->
+  <div class="topic-box">
+    <div class="topic-head">
+      <div class="topic-title">1.2 Secure Hash Functions</div>
+      <span class="badge br">HIGH</span>
+    </div>
+    <div class="def-box"><strong>Definition:</strong> A function H that maps a variable-length input to a fixed-length hash value (digest), satisfying specific security properties.</div>
+    <div class="g2">
+      <div>
+        <h4>Requirements (MEMORIZE ALL 5)</h4>
+        <ul>
+          <li><span class="badge bg">1</span> Works on <strong>any size data</strong></li>
+          <li><span class="badge bg">2</span> Produces <strong>fixed-length output</strong></li>
+          <li><span class="badge bg">3</span> Easy to compute H(x) for any x</li>
+          <li><span class="badge br">4</span> <strong>One-way:</strong> infeasible to find x given H(x)</li>
+          <li><span class="badge br">5</span> <strong>Weak collision resistance:</strong> infeasible to find y≠x with H(y)=H(x)</li>
+          <li><span class="badge br">6</span> <strong>Strong collision resistance:</strong> infeasible to find any pair (x,y) where H(x)=H(y)</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Hash Algorithms</h4>
+        <div class="tbl"><table>
+          <tr><th>Algorithm</th><th>Output Size</th><th>Status</th></tr>
+          <tr><td>MD4</td><td>128-bit</td><td><span class="badge br">Broken</span></td></tr>
+          <tr><td>MD5</td><td>128-bit</td><td><span class="badge by">Weak</span></td></tr>
+          <tr><td>SHA-1</td><td>160-bit</td><td><span class="badge by">Deprecated</span></td></tr>
+          <tr><td>SHA-256</td><td>256-bit</td><td><span class="badge bg">Secure</span></td></tr>
+          <tr><td>SHA-512</td><td>512-bit</td><td><span class="badge bg">Secure</span></td></tr>
+        </table></div>
+      </div>
+    </div>
+    <div class="callout info"><strong>Exam Point</strong><p>SHA-2 family (SHA-224/256/384/512) is currently the standard. SHA-512 uses 64-bit operations. MD = Message Digest.</p></div>
+  </div>
+
+  <!-- Digital Signatures -->
+  <div class="topic-box">
+    <div class="topic-head">
+      <div class="topic-title">1.3 Digital Signatures</div>
+      <span class="badge br">HIGH</span>
+    </div>
+    <div class="def-box"><strong>Definition:</strong> An encrypted message that can be mathematically proven to be authentic. Created using asymmetric (public key) encryption.</div>
+    <div class="g2">
+      <div>
+        <h4>How It Works</h4>
+        <div class="steps">
+          <div class="step"><p>Sender hashes the message → produces digest</p></div>
+          <div class="step"><p>Digest encrypted with sender's <strong>private key</strong> → digital signature</p></div>
+          <div class="step"><p>Message + signature sent to receiver</p></div>
+          <div class="step"><p>Receiver decrypts signature with sender's <strong>public key</strong></p></div>
+          <div class="step"><p>Receiver hashes message independently and compares — if match, authentic!</p></div>
+        </div>
+      </div>
+      <div>
+        <h4>Properties Provided</h4>
+        <ul>
+          <li><span class="badge bg">Authentication</span> Verifies sender identity</li>
+          <li><span class="badge bg">Non-repudiation</span> Sender can't deny signing</li>
+          <li><span class="badge bg">Integrity</span> Message not tampered</li>
+        </ul>
+        <h4>Real-World Uses</h4>
+        <ul>
+          <li>E-mail (S/MIME, PGP)</li>
+          <li>Code signing (Windows drivers)</li>
+          <li>E-commerce transactions</li>
+          <li>Legal documents</li>
+        </ul>
+      </div>
+    </div>
+    <div class="diag">
+      <svg viewBox="0 0 620 130" width="620" height="130" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono" font-size="10">
+        <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1,1L9,5L1,9" fill="none" stroke="#555" stroke-width="1.5"/></marker></defs>
+        <!-- Sender side -->
+        <rect x="5" y="10" width="120" height="30" rx="5" fill="#eaf4fb" stroke="#1a6b8a" stroke-width="1.5"/>
+        <text x="65" y="29" text-anchor="middle" fill="#1a5276" font-weight="600">Message</text>
+        <path d="M65,40 L65,60" stroke="#555" stroke-width="1" marker-end="url(#a)"/>
+        <rect x="5" y="60" width="120" height="30" rx="5" fill="#fef9e7" stroke="#c9890a" stroke-width="1.5"/>
+        <text x="65" y="79" text-anchor="middle" fill="#7d6608">Hash Function</text>
+        <path d="M65,90 L65,110" stroke="#555" stroke-width="1" marker-end="url(#a)"/>
+        <rect x="5" y="110" width="120" height="15" rx="3" fill="#eafaf1" stroke="#27ae60" stroke-width="1"/>
+        <text x="65" y="121" text-anchor="middle" fill="#1e8449">Digest</text>
+        <!-- Private key -->
+        <rect x="155" y="90" width="90" height="20" rx="4" fill="#fdecea" stroke="#c0392b" stroke-width="1"/>
+        <text x="200" y="103" text-anchor="middle" fill="#c0392b">Private Key</text>
+        <path d="M130,118 L155,100" stroke="#555" stroke-width="1" marker-end="url(#a)"/>
+        <!-- Encryption -->
+        <rect x="250" y="75" width="90" height="30" rx="5" fill="#f5eef8" stroke="#7c4dbe" stroke-width="1.5"/>
+        <text x="295" y="94" text-anchor="middle" fill="#7c4dbe">Encrypt</text>
+        <path d="M245,100 L250,92" stroke="#555" stroke-width="1" marker-end="url(#a)"/>
+        <!-- Signature -->
+        <rect x="250" y="115" width="90" height="15" rx="3" fill="#fdecea" stroke="#c0392b" stroke-width="1"/>
+        <text x="295" y="126" text-anchor="middle" fill="#c0392b">Signature</text>
+        <path d="M295,105 L295,115" stroke="#555" stroke-width="1" marker-end="url(#a)"/>
+        <!-- Send -->
+        <path d="M340,90 L390,90" stroke="#555" stroke-width="
